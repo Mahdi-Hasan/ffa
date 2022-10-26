@@ -18,6 +18,7 @@ from collections import UserDict
 from typing import Optional, Tuple
 
 import torch
+torch.cuda.empty_cache()
 
 from .file_utils import add_start_docstrings
 

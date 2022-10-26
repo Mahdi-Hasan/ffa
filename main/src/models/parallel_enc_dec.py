@@ -4,6 +4,7 @@ __author__ = 'fkb'
 __email__ = 'fkb@zjuici.com'
 
 import torch
+torch.cuda.empty_cache()
 import torch.nn as nn
 from transformers import BartModel, FunnelModel
 

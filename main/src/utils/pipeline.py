@@ -10,6 +10,7 @@ import random
 # public
 from tqdm import tqdm, trange
 import torch
+torch.cuda.empty_cache()
 from torch.utils import data as torch_data
 # private
 from ..utils import save, load

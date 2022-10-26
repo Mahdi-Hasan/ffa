@@ -18,6 +18,7 @@ from dataclasses import dataclass
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 import torch
+torch.cuda.empty_cache()
 from torch.nn import functional as F
 
 from .file_utils import ModelOutput

@@ -24,6 +24,8 @@ from typing import Iterator, List, Optional, Union
 
 import numpy as np
 import torch
+import torch
+torch.cuda.empty_cache()
 from torch.utils.data.dataset import Dataset
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data.sampler import RandomSampler, Sampler

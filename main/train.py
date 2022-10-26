@@ -8,6 +8,7 @@ import random
 from datetime import datetime
 
 import torch
+torch.cuda.empty_cache()
 from torch.utils import data as torch_data
 from transformers import AutoTokenizer
 from tqdm import tqdm

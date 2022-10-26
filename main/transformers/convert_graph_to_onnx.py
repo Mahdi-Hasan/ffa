@@ -268,6 +268,7 @@ def convert_pytorch(nlp: Pipeline, opset: int, output: Path, use_external_format
         raise Exception("Cannot convert because PyTorch is not installed. Please install torch first.")
 
     import torch
+    torch.cuda.empty_cache()
     from torch.onnx import export
 
     print(f"Using framework PyTorch: {torch.__version__}")
