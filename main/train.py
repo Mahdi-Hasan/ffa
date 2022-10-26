@@ -491,13 +491,14 @@ class Restorer(object):
         self.asr_test_tgt = [' '.join(y) for y in all_ys]
         self.asr_test_pred = [' '.join(y_) for y_ in all_ys_]
 
-
+@torch.no_grad()
 def main(args):
-    # initialize pipeline
-    print('Initialize...')
-    re = Restorer(args)
-    # train
-    re.train()
+    with torch.no_grad():
+        # initialize pipeline
+        print('Initialize...')
+        re = Restorer(args)
+        # train
+        re.train()
 
 
 if __name__ == '__main__':
