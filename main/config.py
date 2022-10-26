@@ -73,7 +73,7 @@ class Config(object):
         if not os.path.exists(self.RESULT_PATH): os.makedirs(self.RESULT_PATH)
         self.RESULT_POINT = os.path.join(self.RESULT_PATH, '{}.txt')
         # 8
-        self.batch_size = 32 
+        self.batch_size = 256 
         self.shuffle = True
         # set 0 for data generation in the main process
         self.num_workers = 0  # 4

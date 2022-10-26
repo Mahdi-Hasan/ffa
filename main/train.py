@@ -124,7 +124,7 @@ class Restorer(object):
         )
         self.validset_generator = torch_data.DataLoader(
             valid_dataset
-            , batch_size=self.config.batch_size
+            , batch_size= 8
             , collate_fn=self.collate_fn
             , shuffle=False
             , num_workers=self.config.num_workers
@@ -138,7 +138,7 @@ class Restorer(object):
         )
         self.ref_testset_generator = torch_data.DataLoader(
             ref_test_dataset
-            , batch_size=self.config.batch_size
+            , batch_size= 8
             , collate_fn=self.collate_fn
             , shuffle=False
             , num_workers=self.config.num_workers
