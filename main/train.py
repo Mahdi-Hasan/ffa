@@ -284,7 +284,7 @@ class Restorer(object):
                 trainset_generator.set_description(
                     'Loss:{:.4f}'.format(loss.item()))
 
-                #loss.backward()
+                loss.backward()
                 if self.config.clipping_threshold:
                     torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.config.clipping_threshold)
                 self.opt.step()

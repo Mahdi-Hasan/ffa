@@ -44,7 +44,8 @@ def parse_data(sents_list: list, tokenizer, config):
                 x.append(tokens[j])
                 y.append(config.NORMAL_TOKEN)
                 y_mask.append(0)
-            x.append(tokens[-1])
+            if(len(tokens) > 0):
+                x.append(tokens[-1])
             y.append(punc)
             y_mask.append(1)
         sents_list[i] = [d for d in zip(x, y, y_mask)]
