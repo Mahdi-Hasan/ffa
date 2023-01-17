@@ -358,31 +358,30 @@ class Restorer(object):
         all_xs, all_ys, all_y_masks, all_ys_ = [], [], [], []
         validset_generator = tqdm(self.validset_generator)
         self.model.eval()
-        with torch.no_grad():
-            for data in validset_generator:
-                raw_data, train_data = data
-                train_data = (torch.LongTensor(i).to(self.config.device) for i in train_data)
+        for data in validset_generator:
+            raw_data, train_data = data
+            train_data = (torch.LongTensor(i).to(self.config.device) for i in train_data)
 
-                xs, x_masks, ys, y_masks = train_data
-                ys_ = self.model(xs, x_masks)
-                # print(xs[0])
-                # print(x_masks[0])
-                # print(ys[0])
-                # print(torch.argmax(ys_, dim=-1).cpu().detach().numpy().tolist()[0])
-                loss = self.criterion(ys_.view(-1, ys_.shape[-1]), ys.view(-1))
-                if self.config.mask_loss:
-                    loss = (loss * y_masks.view(-1)).sum() / y_masks.sum()
-                else:
-                    loss = loss.mean()
-                valid_loss += loss.item()
-                valid_iteration += 1
-                # postprocess
-                xs, ys, y_masks, ys_ = pipeline.post_process(xs, x_masks, ys, y_masks, ys_, self.tokenizer, self.config)
-                all_xs += xs
-                all_ys += ys
-                all_y_masks += y_masks
-                all_ys_ += ys_
-                # break
+            xs, x_masks, ys, y_masks = train_data
+            ys_ = self.model(xs, x_masks)
+            # print(xs[0])
+            # print(x_masks[0])
+            # print(ys[0])
+            # print(torch.argmax(ys_, dim=-1).cpu().detach().numpy().tolist()[0])
+            loss = self.criterion(ys_.view(-1, ys_.shape[-1]), ys.view(-1))
+            if self.config.mask_loss:
+                loss = (loss * y_masks.view(-1)).sum() / y_masks.sum()
+            else:
+                loss = loss.mean()
+            valid_loss += loss.item()
+            valid_iteration += 1
+            # postprocess
+            xs, ys, y_masks, ys_ = pipeline.post_process(xs, x_masks, ys, y_masks, ys_, self.tokenizer, self.config)
+            all_xs += xs
+            all_ys += ys
+            all_y_masks += y_masks
+            all_ys_ += ys_
+            # break
         # evaluation
         loss = valid_loss / valid_iteration
         self.writer.add_scalar("loss/val", loss, self.epoch)
@@ -421,20 +420,19 @@ class Restorer(object):
         
         all_xs, all_ys, all_y_masks, all_ys_ = [], [], [], []
         ref_testset_generator = tqdm(self.ref_testset_generator)
-        with torch.no_grad():
-            for data in ref_testset_generator:
-                raw_data, train_data = data
-                train_data = (torch.LongTensor(i).to(self.config.device) for i in train_data)
+        for data in ref_testset_generator:
+            raw_data, train_data = data
+            train_data = (torch.LongTensor(i).to(self.config.device) for i in train_data)
 
-                xs, x_masks, ys, y_masks = train_data
-                ys_ = self.model(xs, x_masks)
-                # # postprocess
-                xs, ys, y_masks, ys_ = pipeline.post_process(xs, x_masks, ys, y_masks, ys_, self.tokenizer, self.config)
-                all_xs += xs
-                all_ys += ys
-                all_y_masks += y_masks
-                all_ys_ += ys_
-                # break
+            xs, x_masks, ys, y_masks = train_data
+            ys_ = self.model(xs, x_masks)
+            # # postprocess
+            xs, ys, y_masks, ys_ = pipeline.post_process(xs, x_masks, ys, y_masks, ys_, self.tokenizer, self.config)
+            all_xs += xs
+            all_ys += ys
+            all_y_masks += y_masks
+            all_ys_ += ys_
+            # break
         eva_matrix = Evaluater(all_ys, all_y_masks, all_ys_, self.config)
         eva_msg = 'Test Epoch {} Total Step {} '.format(self.epoch, self.step)
         eva_msg += eva_matrix.eva_msg
@@ -463,20 +461,19 @@ class Restorer(object):
 
         all_xs, all_ys, all_y_masks, all_ys_ = [], [], [], []
         asr_testset_generator = tqdm(self.asr_testset_generator)
-        with torch.no_grad():
-            for data in asr_testset_generator:
-                raw_data, train_data = data
-                train_data = (torch.LongTensor(i).to(self.config.device) for i in train_data)
+        for data in asr_testset_generator:
+            raw_data, train_data = data
+            train_data = (torch.LongTensor(i).to(self.config.device) for i in train_data)
 
-                xs, x_masks, ys, y_masks = train_data
-                ys_ = self.model(xs, x_masks)
-                # postprocess
-                xs, ys, y_masks, ys_ = pipeline.post_process(xs, x_masks, ys, y_masks, ys_, self.tokenizer, self.config)
-                all_xs += xs
-                all_ys += ys
-                all_y_masks += y_masks
-                all_ys_ += ys_
-                # break
+            xs, x_masks, ys, y_masks = train_data
+            ys_ = self.model(xs, x_masks)
+            # postprocess
+            xs, ys, y_masks, ys_ = pipeline.post_process(xs, x_masks, ys, y_masks, ys_, self.tokenizer, self.config)
+            all_xs += xs
+            all_ys += ys
+            all_y_masks += y_masks
+            all_ys_ += ys_
+            # break
         eva_matrix = Evaluater(all_ys, all_y_masks, all_ys_, self.config)
         eva_msg = 'Test Epoch {} Total Step {} '.format(self.epoch, self.step)
         eva_msg += eva_matrix.eva_msg
@@ -491,14 +488,13 @@ class Restorer(object):
         self.asr_test_tgt = [' '.join(y) for y in all_ys]
         self.asr_test_pred = [' '.join(y_) for y_ in all_ys_]
 
-@torch.no_grad()
+
 def main(args):
-    with torch.no_grad():
-        # initialize pipeline
-        print('Initialize...')
-        re = Restorer(args)
-        # train
-        re.train()
+    # initialize pipeline
+    print('Initialize...')
+    re = Restorer(args)
+    # train
+    re.train()
 
 
 if __name__ == '__main__':
