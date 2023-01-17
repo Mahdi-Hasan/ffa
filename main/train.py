@@ -305,7 +305,8 @@ class Restorer(object):
             print('lr: {}'.format(self.opt.state_dict()['param_groups'][0]['lr']))
             # check progress
             # evaluation
-            loss = train_loss / train_iteration
+            if train_iteration !=0:
+                loss = train_loss / train_iteration
             self.writer.add_scalar("loss/train", loss, self.epoch)
 
             eva_matrix = Evaluater(all_ys, all_y_masks, all_ys_, self.config)
