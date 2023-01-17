@@ -307,6 +307,8 @@ class Restorer(object):
             # evaluation
             if train_iteration !=0:
                 loss = train_loss / train_iteration
+            else:
+                loss = train_loss
             self.writer.add_scalar("loss/train", loss, self.epoch)
 
             eva_matrix = Evaluater(all_ys, all_y_masks, all_ys_, self.config)
