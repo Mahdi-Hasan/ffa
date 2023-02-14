@@ -299,6 +299,8 @@ class Restorer(object):
                 self.step += 1
             #     break
             # break
+            self.opt.zero_grad()
+            self.opt.step()
             self.scheduler.step()
             print('lr: {}'.format(self.opt.state_dict()['param_groups'][0]['lr']))
             # check progress
