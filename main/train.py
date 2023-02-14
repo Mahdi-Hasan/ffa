@@ -253,9 +253,10 @@ class Restorer(object):
         self.valid_log.append(general_info)
         self.ref_test_log.append(general_info)
         self.asr_test_log.append(general_info)
+        train_iteration = 0
         while not self.finished:
             print('\nTraining...')
-            train_loss, train_iteration = .0, 0
+            train_loss,  = .0
             all_xs, all_ys, all_y_masks, all_ys_ = [], [], [], []
             self.model.train()
             # training set data loader
@@ -299,8 +300,6 @@ class Restorer(object):
                 self.step += 1
             #     break
             # break
-            self.opt.zero_grad()
-            self.opt.step()
             self.scheduler.step()
             print('lr: {}'.format(self.opt.state_dict()['param_groups'][0]['lr']))
             # check progress
