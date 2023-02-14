@@ -45,10 +45,10 @@ class Config(object):
         self.label2idx_dict = {'O': 0, 'COMMA': 1, 'PERIOD': 2, 'QUESTION': 3}
         self.idx2label_dict = {v: k for k, v in self.label2idx_dict.items()}
         # I/O
-        self.TRAIN_FILE = 'train2012'
-        self.VALID_FILE = 'dev2012'
-        self.REF_TEST_FILE = 'test2011'
-        self.ASR_TEST_FILE = 'test2011asr'
+        self.TRAIN_FILE = 'train_min'
+        self.VALID_FILE = 'dev_min'
+        self.REF_TEST_FILE = 'test_min'
+        self.ASR_TEST_FILE = 'test_asr_min'
         self.CURR_PATH = os.path.dirname(os.path.realpath(__file__))
         self.RESOURCE_PATH = os.path.join(self.CURR_PATH, 'res')
         self.DATA_PATH = os.path.join(self.RESOURCE_PATH, 'data', str(self.lan_model).replace('/', '-'))

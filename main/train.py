@@ -240,7 +240,7 @@ class Restorer(object):
 
         # learning rate
         self.scheduler = LambdaLR(self.opt, lr_lambda=lambda epoch: 0.95 ** epoch)
-        self.writer = SummaryWriter(log_dir='./logs/' + time.strftime("%Y-%m-%d-%H:%M:%S", time.localtime(time.time())))
+        self.writer = SummaryWriter(log_dir='./logs/' + time.strftime("%Y-%m-%d", time.localtime(time.time())))
         # restore training progress
         if self.config.load_check_point:
             self.load_check_point()
