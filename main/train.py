@@ -282,12 +282,11 @@ class Restorer(object):
                     loss = loss.mean()
                 trainset_generator.set_description(
                     'Loss:{:.4f}'.format(loss.item()))
-
-                loss.backward()
                 if self.config.clipping_threshold:
                     torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.config.clipping_threshold)
-                self.opt.step()
                 self.opt.zero_grad()
+                loss.backward()
+                self.opt.step()
                 train_loss += loss.item()
                 # postprocess
                 xs, ys, y_masks, ys_ = pipeline.post_process(xs, x_masks, ys, y_masks, ys_, self.tokenizer, self.config)
