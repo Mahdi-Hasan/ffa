@@ -86,9 +86,9 @@ class Config(object):
         # model
         # 3e-6 for t5 large 5e-6 for large, 1e-5 for base
         # self.lan_learning_rate = 1e-5
-        self.lan_learning_rate = 5e-6
+        self.lan_learning_rate = 5e-3
         # self.learning_rate = 1e-5
-        self.learning_rate = 5e-6
+        self.learning_rate = 5e-3
         self.clipping_threshold = 5.
         # embedding
         self.embedding_size = self.lan_hidden_size

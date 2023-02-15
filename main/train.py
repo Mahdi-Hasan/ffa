@@ -253,10 +253,9 @@ class Restorer(object):
         self.valid_log.append(general_info)
         self.ref_test_log.append(general_info)
         self.asr_test_log.append(general_info)
-        train_iteration = 0
         while not self.finished:
             print('\nTraining...')
-            train_loss,  = .0
+            train_loss,train_iteration = .0,1
             all_xs, all_ys, all_y_masks, all_ys_ = [], [], [], []
             self.model.train()
             # training set data loader
