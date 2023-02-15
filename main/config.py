@@ -76,11 +76,11 @@ class Config(object):
         self.batch_size = 8
         self.shuffle = True
         # set 0 for data generation in the main process
-        self.num_workers = 0  # 4
+        self.num_workers = 2  # 4
         self.pin_memory = True
         self.drop_last = True
         # 256
-        self.max_seq_len = 256
+        self.max_seq_len = 124
         # language model
         self.lan_hidden_size = self.lan_model_config.hidden_size if self.lan_model else None
         # model
