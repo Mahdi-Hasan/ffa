@@ -73,14 +73,14 @@ class Config(object):
         if not os.path.exists(self.RESULT_PATH): os.makedirs(self.RESULT_PATH)
         self.RESULT_POINT = os.path.join(self.RESULT_PATH, '{}.txt')
         # 8
-        self.batch_size = 4
+        self.batch_size = 1
         self.shuffle = True
         # set 0 for data generation in the main process
         self.num_workers = 2  # 4
         self.pin_memory = True
         self.drop_last = True
         # 256
-        self.max_seq_len = 124
+        self.max_seq_len = 32
         # language model
         self.lan_hidden_size = self.lan_model_config.hidden_size if self.lan_model else None
         # model

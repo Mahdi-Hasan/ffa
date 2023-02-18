@@ -9,6 +9,7 @@ from datetime import datetime
 
 import torch
 from torch.utils import data as torch_data
+from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer
 from tqdm import tqdm
 import argparse
@@ -19,6 +20,7 @@ from torch.optim.lr_scheduler import LambdaLR
 from tensorboardX import SummaryWriter
 import time
 import torch.nn.functional as F
+import koila
 
 #os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 # torch.cuda.set_device(1)
@@ -205,6 +207,11 @@ class Restorer(object):
         self.criterion = torch.nn.CrossEntropyLoss(reduction='none')
         # model
         self.model = pipeline.pick_model(self.config)
+        if torch.cuda.device_count() > 1:
+          print("Let's use", torch.cuda.device_count(), "GPUs!")
+          # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
+          self.model = torch.nn.DataParallel(self.model)
+        self.model.to(self.config.device)        
         if self.config.lan_model:
             if self.config.model_name == "parallelendecoder":
                 decode_lan_model_param_names = ["decode_layer." + n for n, _ in self.model.decode_layer.named_parameters()]
@@ -257,6 +264,8 @@ class Restorer(object):
             print('\nTraining...')
             train_loss,train_iteration = .0,1
             all_xs, all_ys, all_y_masks, all_ys_ = [], [], [], []
+            (all_xs, all_ys) = koila.lazy(all_xs, all_ys, batch=0)
+            torch.cuda.empty_cache()
             self.model.train()
             # training set data loader
             trainset_generator = tqdm(self.trainset_generator)
@@ -284,7 +293,7 @@ class Restorer(object):
                     'Loss:{:.4f}'.format(loss.item()))
                 if self.config.clipping_threshold:
                     torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.config.clipping_threshold)
-                self.opt.zero_grad()
+                self.opt.zero_grad(set_to_none=True)
                 loss.backward()
                 self.opt.step()
                 train_loss += loss.item()
@@ -294,7 +303,6 @@ class Restorer(object):
                 all_ys += ys
                 all_y_masks += y_masks
                 all_ys_ += ys_
-
                 train_iteration += 1
                 self.step += 1
             #     break
