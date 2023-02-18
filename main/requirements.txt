@@ -8,4 +8,3 @@ ipywidgets
 namegenerator
 tensorboardX
 sacremoses
-koila

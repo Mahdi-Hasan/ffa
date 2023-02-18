@@ -20,7 +20,6 @@ from torch.optim.lr_scheduler import LambdaLR
 from tensorboardX import SummaryWriter
 import time
 import torch.nn.functional as F
-import koila
 
 #os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 # torch.cuda.set_device(1)
@@ -264,7 +263,6 @@ class Restorer(object):
             print('\nTraining...')
             train_loss,train_iteration = .0,1
             all_xs, all_ys, all_y_masks, all_ys_ = [], [], [], []
-            (all_xs, all_ys) = koila.lazy(all_xs, all_ys, batch=0)
             torch.cuda.empty_cache()
             self.model.train()
             # training set data loader
