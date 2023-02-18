@@ -269,6 +269,7 @@ class Restorer(object):
             trainset_generator = tqdm(self.trainset_generator)
             for data in trainset_generator:
                 raw_data, train_data = data
+                train_data = data.to(self.config.device)
                 train_data = (torch.LongTensor(i).to(self.config.device) for i in train_data)
                 xs, x_masks, ys, y_masks = train_data
                 ys_ = self.model(xs, x_masks, ys, y_masks)
