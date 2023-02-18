@@ -206,10 +206,6 @@ class Restorer(object):
         self.criterion = torch.nn.CrossEntropyLoss(reduction='none')
         # model
         self.model = pipeline.pick_model(self.config)
-        if torch.cuda.device_count() > 1:
-          print("Let's use", torch.cuda.device_count(), "GPUs!")
-          # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
-          self.model = torch.nn.DataParallel(self.model)
         self.model.to(self.config.device)        
         if self.config.lan_model:
             if self.config.model_name == "parallelendecoder":
@@ -243,6 +239,10 @@ class Restorer(object):
                      {'params': lan_model_params, 'lr': self.config.lan_learning_rate}
                      , {'params': head_model_params, 'lr': self.config.learning_rate}
                  ])
+            if torch.cuda.device_count() > 1:
+                print("Let's use", torch.cuda.device_count(), "GPUs!")
+                # dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
+                self.model = torch.nn.DataParallel(self.model)
 
         # learning rate
         self.scheduler = LambdaLR(self.opt, lr_lambda=lambda epoch: 0.95 ** epoch)
