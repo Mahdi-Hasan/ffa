@@ -5,6 +5,7 @@ __email__ = 'fkb@zjuici.com'
 
 SPECIAL_TOKENS_DICT = {}
 SPECIAL_TOKENS_DICT['t5-large'] = {'bos_token': '<s>', 'eos_token': '</s>', 'unk_token': '<unk>',  'pad_token': '<pad>'}
+SPECIAL_TOKENS_DICT['google/mt5-small'] = {'bos_token': '<s>', 'eos_token': '</s>', 'unk_token': '<unk>',  'pad_token': '<pad>'}
 SPECIAL_TOKENS_DICT['facebook/bart-base'] = {'bos_token': '<s>', 'eos_token': '</s>', 'unk_token': '<unk>',  'pad_token': '<pad>'}
 SPECIAL_TOKENS_DICT['facebook/bart-large'] = {'bos_token': '<s>', 'eos_token': '</s>', 'unk_token': '<unk>',  'pad_token': '<pad>'}
 SPECIAL_TOKENS_DICT['bert-base-uncased'] = {'bos_token': '[CLS]', 'eos_token': '[SEP]', 'unk_token': '[UNK]',  'pad_token': '[PAD]'}

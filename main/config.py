@@ -17,7 +17,7 @@ class Config(object):
         super(Config, self).__init__()
         # Basic Settings
         # funnel-transformer/large, facebook/bart-large
-        self.lan_model = 'funnel-transformer/xlarge'
+        self.lan_model = 'google/mt5-small'
         self.lan_model_config = AutoConfig.from_pretrained(self.lan_model) if self.lan_model else None
         self.X_TAG = 'X'
         # True or False
@@ -45,10 +45,10 @@ class Config(object):
         self.label2idx_dict = {'O': 0, 'COMMA': 1, 'PERIOD': 2, 'QUESTION': 3}
         self.idx2label_dict = {v: k for k, v in self.label2idx_dict.items()}
         # I/O
-        self.TRAIN_FILE = 'train2012'
-        self.VALID_FILE = 'dev2012'
-        self.REF_TEST_FILE = 'test2011'
-        self.ASR_TEST_FILE = 'test2011asr'
+        self.TRAIN_FILE = 'train'
+        self.VALID_FILE = 'dev'
+        self.REF_TEST_FILE = 'test_ref'
+        self.ASR_TEST_FILE = 'test_asr'
         self.CURR_PATH = os.path.dirname(os.path.realpath(__file__))
         self.RESOURCE_PATH = os.path.join(self.CURR_PATH, 'res')
         self.DATA_PATH = os.path.join(self.RESOURCE_PATH, 'data', str(self.lan_model).replace('/', '-'))
