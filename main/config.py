@@ -5,7 +5,7 @@ __email__ = 'fkb@zjuici.com'
 
 import os
 
-from transformers import AutoConfig
+from transformers import AutoConfig,MT5Config
 from res.settings import *
 import namegenerator
 
@@ -17,8 +17,8 @@ class Config(object):
         super(Config, self).__init__()
         # Basic Settings
         # funnel-transformer/large, facebook/bart-large
-        self.lan_model = 'google/mt5-small'
-        self.lan_model_config = AutoConfig.from_pretrained(self.lan_model) if self.lan_model else None
+        self.lan_model = 'google/mt5-large'
+        self.lan_model_config = MT5Config.from_pretrained(self.lan_model) if self.lan_model else None
         self.X_TAG = 'X'
         # True or False
         self.use_rdrop = True
@@ -73,14 +73,14 @@ class Config(object):
         if not os.path.exists(self.RESULT_PATH): os.makedirs(self.RESULT_PATH)
         self.RESULT_POINT = os.path.join(self.RESULT_PATH, '{}.txt')
         # 8
-        self.batch_size = 8
+        self.batch_size = 1
         self.shuffle = True
         # set 0 for data generation in the main process
         self.num_workers = 0  # 4
         self.pin_memory = True
         self.drop_last = True
         # 256
-        self.max_seq_len = 256
+        self.max_seq_len = 16
         # language model
         self.lan_hidden_size = self.lan_model_config.hidden_size if self.lan_model else None
         # model
@@ -102,4 +102,4 @@ class Config(object):
         #self.xfmr_intermediate_size = 8192 if self.lan_hidden_size >= 1024 else 3072
         self.xfmr_hidden_dropout_prob = 0.2
         # validation
-        self.valid_win_size = 8  # 8
+        self.valid_win_size = 2  # 8

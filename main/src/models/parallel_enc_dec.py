@@ -5,10 +5,10 @@ __email__ = 'fkb@zjuici.com'
 
 import torch
 import torch.nn as nn
-from transformers import XLMRobertaModel, MT5ForConditionalGeneration
+from transformers import AutoModelForMaskedLM,AutoModelForSeq2SeqLM
 
 decode_model_name = "google/mt5-small"
-encode_model_name = "xlm-roberta-large"
+encode_model_name = "xlm-roberta-base"
 
 
 class ParallelEndecoderGraph(nn.Module):
@@ -17,8 +17,8 @@ class ParallelEndecoderGraph(nn.Module):
     def __init__(self, config):
         super(ParallelEndecoderGraph, self).__init__()
         self.config = config
-        self.encode_layer = XLMRobertaModel.from_pretrained(encode_model_name, hidden_dropout=config.xfmr_hidden_dropout_prob)
-        self.decode_layer = MT5ForConditionalGeneration.from_pretrained(decode_model_name, use_cache=False, gradient_checkpointing=True, output_hidden_states=True, dropout=config.xfmr_hidden_dropout_prob)
+        self.encode_layer = AutoModelForMaskedLM.from_pretrained(encode_model_name, hidden_dropout=config.xfmr_hidden_dropout_prob)
+        self.decode_layer = AutoModelForSeq2SeqLM.from_pretrained(decode_model_name, use_cache=False, gradient_checkpointing=True, output_hidden_states=True, dropout=config.xfmr_hidden_dropout_prob)
 
         fusion_in_features = 2*config.lan_hidden_size
         self.fusion_layer = nn.TransformerEncoderLayer(

@@ -9,7 +9,7 @@ from datetime import datetime
 
 import torch
 from torch.utils import data as torch_data
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer , T5TokenizerFast
 from tqdm import tqdm
 import argparse
 from config import Config
@@ -89,7 +89,7 @@ class Restorer(object):
         self.asr_test_log = self.valid_log.copy()
         # language model tokenizer
         if self.config.lan_model:
-            self.tokenizer = AutoTokenizer.from_pretrained(self.config.lan_model)
+            self.tokenizer = T5TokenizerFast.from_pretrained(self.config.lan_model)
             self.tokenizer.add_special_tokens({'bos_token': '<s>'})
 
     def load_data(self):
